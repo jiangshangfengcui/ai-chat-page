@@ -36,7 +36,13 @@ export const useChatOperations = () => {
         dispatch({ type: 'ADD_MESSAGE', payload: userMessage });
 
         // Send message to server (this might fail gracefully)
-        await chatService.sendUserMessage(content.trim());
+        const responseMessage = await chatService.sendUserMessage(content.trim());
+
+        console.log('hook 接受返回结果', responseMessage)
+        if (responseMessage && responseMessage.content) {
+          dispatch({ type: 'ADD_MESSAGE', payload: responseMessage });
+          return
+        }
 
         // Simulate AI response with delay
         setTimeout(
