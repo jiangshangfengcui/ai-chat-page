@@ -15,6 +15,8 @@ type ChatAction =
   | { type: 'SET_ERROR'; payload: string | null }
   | { type: 'SET_MESSAGES'; payload: Message[] }
   | { type: 'ADD_MESSAGE'; payload: Message }
+  | { type: 'ADD_USER_MESSAGE'; payload: Message }
+  | { type: 'ADD_AI_MESSAGE'; payload: Message }
   | { type: 'SET_CONNECTED'; payload: boolean };
 
 // Initial State
@@ -40,6 +42,19 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
         error: null,
       };
     case 'ADD_MESSAGE':
+      return {
+        ...state,
+        messages: [...state.messages, action.payload],
+        isLoading: false,
+        error: null,
+      };
+    case 'ADD_USER_MESSAGE':
+      return {
+        ...state,
+        messages: [...state.messages, action.payload],
+        error: null,
+      };
+    case 'ADD_AI_MESSAGE':
       return {
         ...state,
         messages: [...state.messages, action.payload],
