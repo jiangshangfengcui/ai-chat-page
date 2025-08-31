@@ -33,14 +33,14 @@ export const useChatOperations = () => {
           timestamp: new Date().toISOString(),
         };
 
-        dispatch({ type: 'ADD_MESSAGE', payload: userMessage });
+        dispatch({ type: 'ADD_USER_MESSAGE', payload: userMessage });
 
         // Send message to server (this might fail gracefully)
         const responseMessage = await chatService.sendUserMessage(content.trim());
 
         console.log('hook 接受返回结果', responseMessage)
         if (responseMessage && responseMessage.content) {
-          dispatch({ type: 'ADD_MESSAGE', payload: responseMessage });
+          dispatch({ type: 'ADD_AI_MESSAGE', payload: responseMessage });
           return
         }
 
@@ -48,13 +48,12 @@ export const useChatOperations = () => {
         setTimeout(
           () => {
             const aiResponse = chatService.generateAIResponse(content);
-            dispatch({ type: 'ADD_MESSAGE', payload: aiResponse });
+            dispatch({ type: 'ADD_AI_MESSAGE', payload: aiResponse });
           },
           1000 + Math.random() * 2000
         );
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to send message' });
-      } finally {
         dispatch({ type: 'SET_LOADING', payload: false });
       }
     },
