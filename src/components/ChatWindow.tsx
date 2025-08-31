@@ -7,7 +7,10 @@ interface ChatWindowProps {
   loading: boolean;
 }
 
-export const ChatWindow: React.FC<ChatWindowProps> = ({ messages, loading }) => {
+export const ChatWindow: React.FC<ChatWindowProps> = ({
+  messages,
+  loading,
+}) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
